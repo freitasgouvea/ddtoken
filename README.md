@@ -1,1 +1,1 @@
-# ddtoken
+# ddtoken - Scalling Ethereum Hackathon
