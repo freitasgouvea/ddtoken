@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
   <div class="container">
-    <a href="../" class="navbar-brand">DD Token</a>
+    <a href="../" class="navbar-brand">DDToken</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
       aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -35,6 +35,7 @@
                 <th scope="col">Coin</th>
                 <th scope="col">Vault</th>
                 <th scope="col" class="text-center">Your Balance</th>
+                <th scope="col" class="text-center">Deposited</th>
                 <th scope="col" class="text-center">APY</th>
                 <th scope="col" class="text-center"></th>
               </tr>
@@ -43,7 +44,8 @@
               <tr>
                 <th scope="row">ETH</th>
                 <td>Yearn Vault</td>
-                <td class="text-center">8.5000</td>
+                <td class="text-center">8.50000</td>
+                <td class="text-center">0.00000</td>
                 <td class="text-center">3.00 %</td>
                 <td class="text-center"><button type="button" class="btn btn-primary"
                     (click)="selectVault('Ethereum')">Deposit ETH</button></td>
@@ -51,7 +53,8 @@
               <tr>
                 <th scope="row">DAI</th>
                 <td>Yearn Vault</td>
-                <td class="text-center">12000.00</td>
+                <td class="text-center">12000.00000</td>
+                <td class="text-center">0.00000</td>
                 <td class="text-center">3.00 %</td>
                 <td class="text-center">
                   <button type="button" class="btn btn-primary" (click)="selectVault('DAI')">Deposit DAI</button>
@@ -60,21 +63,24 @@
               <tr class="table-light">
                 <th scope="row">USDC</th>
                 <td>Yearn Vault</td>
-                <td class="text-center">15000.00</td>
+                <td class="text-center">15000.00000</td>
+                <td class="text-center">0.00000</td>
                 <td class="text-center">N/A</td>
                 <td class="text-center"><button disabled type="button" class="btn btn-primary">Building</button></td>
               </tr>
               <tr class="table-light">
                 <th scope="row">WBTC</th>
                 <td>Yearn Vault</td>
-                <td class="text-center">4.0090</td>
+                <td class="text-center">4.00900</td>
+                <td class="text-center">0.00000</td>
                 <td class="text-center">N/A</td>
                 <td class="text-center"><button disabled type="button" class="btn btn-primary">Building</button></td>
               </tr>
               <tr class="table-light">
                 <th scope="row">DDT</th>
                 <td>Yearn Vault</td>
-                <td class="text-center">1000.00</td>
+                <td class="text-center">1000.00000</td>
+                <td class="text-center">0.00000</td>
                 <td class="text-center">N/A</td>
                 <td class="text-center"><button disabled type="button" class="btn btn-primary">Building</button></td>
               </tr>
@@ -176,7 +182,6 @@
                   <p>With supporting text below as a natural lead-in to additional content.</p>
                   <p>With supporting text below as a natural lead-in to additional content.</p>
                   <a href="#" class="btn btn-light">Etherscan</a>
-                  <a href="#" class="btn btn-light">Other Source</a>
                 </div>
                 <div class="col-lg-1">
                   &nbsp;
@@ -191,7 +196,7 @@
                       </fieldset>
                     </div>
                     <div class="col-6">
-                      <h6>Vault Balance</h6>
+                      <h6>Deposited Balance</h6>
                       <fieldset class="form-group">
                         <h4>10.00000</h4>
                         <p>{{selectedVault}}</p>
@@ -228,8 +233,8 @@
                     <fieldset>
                       <legend>Deposit</legend>
                       <fieldset class="form-group">
-                        <label>Your Balance</label>
-                        <h3>4.5555555 <small>{{selectedVault}}</small></h3>
+                        <label>Wallet Balance</label>
+                        <h3>4.55555 <small>{{selectedVault}}</small></h3>
                       </fieldset>
                       <fieldset class="form-group">
                         <label>Select a Value</label>
@@ -251,14 +256,15 @@
                       </fieldset>
                     </fieldset>
                     <a href="#" class="btn btn-block btn-success"><strong> Confirm Your Deposit</strong></a>
+                    <a href="#" class="btn btn-block btn-secondary" (click)="selectOperation('menu')"><strong> Back to Optoins</strong></a>
                   </form>
                   <form *ngIf="selectedOperation == 'withdraw'" [formGroup]="withdrawForm"
                     (ngSubmit)="confirmWithdraw()">
                     <fieldset>
                       <legend>Withdraw</legend>
                       <fieldset class="form-group">
-                        <label>Vault Balance</label>
-                        <h3>1.00000000 <small>{{selectedVault}}</small></h3>
+                        <label>Deposited Balance</label>
+                        <h3>1.00000 <small>{{selectedVault}}</small></h3>
                       </fieldset>
                       <fieldset class="form-group">
                         <label>Select a Value</label>
@@ -280,7 +286,7 @@
                       </fieldset>
                     </fieldset>
                     <a href="#" class="btn btn-block btn-danger"><strong> Confirm Your Withdraw</strong></a>
-                    <a href="#" class="btn btn-block btn-danger"><strong> Confirm Your Withdraw</strong></a>
+                    <a href="#" class="btn btn-block btn-secondary" (click)="selectOperation('menu')"><strong> Back to Optoins</strong></a>
                   </form>
                 </div>
                 <div class="col-lg-1">&nbsp;</div>
@@ -288,10 +294,11 @@
                   <legend>Step by Step</legend>
                   <p>Select Operation.</p>
                   <p>Set a value.</p>
-                  <p>Click to submit your ioperation.</p>
+                  <p>Submit your operation.</p>
+                  <p>Approve operation in your wallet.</p>
                   <p>Confirm operation in your wallet.</p>
-                  <p>Wait for de tx.</p>
-                  <p>Congratulation</p>
+                  <p>Wait for de tx complete.</p>
+                  <p>Congratulations</p>
                 </div>
               </div>
             </div>
