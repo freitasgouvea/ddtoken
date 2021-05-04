@@ -22,7 +22,7 @@
 
   <div class="bs-docs-section">
 
-    <div class="row" *ngIf="selectedVault == null"> 
+    <div class="row" *ngIf="selectedVault == null">
 
       <div class="col-lg-8" style="margin-top: 100px;">
         <div class="page-header">
@@ -45,7 +45,8 @@
                 <td>Yearn Vault</td>
                 <td class="text-center">8.5000</td>
                 <td class="text-center">3.00 %</td>
-                <td class="text-center"><button type="button" class="btn btn-primary" (click)="selectVault('ethereum')">Deposit</button></td>
+                <td class="text-center"><button type="button" class="btn btn-primary"
+                    (click)="selectVault('Ethereum')">Deposit ETH</button></td>
               </tr>
               <tr>
                 <th scope="row">DAI</th>
@@ -53,53 +54,59 @@
                 <td class="text-center">12000.00</td>
                 <td class="text-center">3.00 %</td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-primary" (click)="selectVault('DAI')">Deposit</button>
+                  <button type="button" class="btn btn-primary" (click)="selectVault('DAI')">Deposit DAI</button>
                 </td>
               </tr>
-              <tr class="table-secondary">
+              <tr class="table-light">
                 <th scope="row">USDC</th>
                 <td>Yearn Vault</td>
                 <td class="text-center">15000.00</td>
                 <td class="text-center">N/A</td>
-                <td class="text-center"><button disabled type="button" class="btn btn-primary">Soon</button></td>
+                <td class="text-center"><button disabled type="button" class="btn btn-primary">Building</button></td>
               </tr>
-              <tr class="table-secondary">
+              <tr class="table-light">
                 <th scope="row">WBTC</th>
                 <td>Yearn Vault</td>
                 <td class="text-center">4.0090</td>
                 <td class="text-center">N/A</td>
-                <td class="text-center"><button disabled type="button" class="btn btn-primary">Soon</button></td>
+                <td class="text-center"><button disabled type="button" class="btn btn-primary">Building</button></td>
               </tr>
-              <tr class="table-secondary">
+              <tr class="table-light">
                 <th scope="row">DDT</th>
                 <td>Yearn Vault</td>
                 <td class="text-center">1000.00</td>
                 <td class="text-center">N/A</td>
-                <td class="text-center"><button disabled type="button" class="btn btn-primary">Soon</button></td>
+                <td class="text-center"><button disabled type="button" class="btn btn-primary">Building</button></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="col-lg-4" style="margin-top: 150px;" *ngIf="smallBox == 'offline'">
+      <div class="col-lg-4" style="margin-top: 100px;" *ngIf="smallBox == 'offline'">
+        <div class="page-header">
+          <h3>Portifolio Info</h3>
+        </div>
         <div class="bs-component">
-          <div class="card text-center text-dark bg-light border border-secondary mb-3"
-            style="max-width: 100rem; margin-top: 80px;">
+          <div class="card text-center bg-light border border-secondary mb-3"
+            style="max-width: 100rem; margin-top: 40px;">
             <div class="card-body">
               <h4 class="card-title">Connect your wallet</h4>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
                 content.</p>
-              <button type="button" class="btn btn-warning" (click)="connectMetamask()">Metamask</button>
+              <button type="button" class="btn btn-warning" (click)="connectMetamask()">Connect Wallet</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4" style="margin-top: 150px;"  *ngIf="smallBox == 'waiting'">
+      <div class="col-lg-4" style="margin-top: 100px;" *ngIf="smallBox == 'waiting'">
+        <div class="page-header">
+          <h3>Portifolio Info</h3>
+        </div>
         <div class="bs-component">
-          <div class="card text-center text-dark bg-light border border-secondary mb-3"
-            style="max-width: 100rem; margin-top: 80px;">
+          <div class="card text-center bg-light border border-secondary mb-3"
+            style="max-width: 100rem; margin-top: 40px;">
             <div class="card-body">
               <h4 class="card-title">Autorize in your wallet</h4>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
@@ -110,46 +117,59 @@
         </div>
       </div>
 
-      <div class="col-lg-4" *ngIf="smallBox == 'connected'">
-        <div class="page-header text-center">
-          <h3>Account Info</h3>
+      <div class="col-lg-4" style="margin-top: 100px;" *ngIf="smallBox == 'connected'">
+        <div class="page-header">
+          <h3>Portifolio Info</h3>
         </div>
+
         <div class="bs-component" *ngIf="assets == 0">
-          <div class="card text-center text-dark bg-light border border-secondary mb-3"
-            style="max-width: 100rem; margin-top: 80px;">
+          <div class="card text-center text-primary bg-outline-primary border border-success border-5 mb-3"
+            style="max-width: 100rem; margin-top: 40px;">
             <div class="card-body">
               <h4 class="card-title">Make your first deposit</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <button disabled type="button" class="btn btn-danger">Select Vault</button>
+              <p class="card-text">Some quick example text to build on the card.</p>
+              <button type="button" class="btn btn-success" (click)="selectVault('Ethereum')">Try with Ethereum</button>
             </div>
           </div>
         </div>
-        <div class="bs-component" *ngIf="assets >= 1">
-          <div class="card text-center text-dark bg-light border border-secondary mb-3"
-            style="max-width: 100rem; margin-top: 80px;">
+
+        <div class="bs-component" *ngIf="assets == 0">
+          <div class="card text-center text-primary bg-outline-primary border border-info border-5 mb-3"
+            style="max-width: 100rem; margin-top: 10px;">
             <div class="card-body">
-              <h4 class="card-title">Connect your wallet</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <button type="button" class="btn btn-success">Metamask</button>
+              <h4 class="card-title">Calculate your future profits</h4>
+              <p class="card-text">Some quick example text to build on the card title bla bla bla bla.</p>
+              <button type="button" class="btn btn-info" (click)="selectVault('DAI')">Try with DAI</button>
             </div>
+          </div>
+        </div>
+
+        <div class="bs-component" *ngIf="assets >= 1">
+          <div class="list-group" style="margin-top: 40px;">
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">5.65651</h5>
+                <small class="text-muted">APY 12.99 %</small>
+              </div>
+              <p class="mb-1">Ethereum</p>
+              <small class="text-muted">Go to vault</small>
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row" *ngIf="selectedVault != null"> 
+    <div class="row" *ngIf="selectedVault != null">
       <div class="col-lg-12" style="margin-top: 100px;" *ngIf="largeBox == 'selected'">
         <div class="page-header">
-          <h3>{{selectedVault}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../" class="btn btn-light">Back to Vaults</a></h3>
+          <h3>{{selectedVault}}&nbsp;Vault&nbsp;&nbsp;&nbsp;&nbsp;<a href="../" class="btn btn-light">Back to Vaults</a></h3>
         </div>
         <div class="bs-component">
           <div class="card" style="margin-top: 30px;">
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-4">
-                  <legend>Vault Info</legend>
+                  <legend>Info</legend>
                   <p>With supporting text below as a natural lead-in to additional content.</p>
                   <p>With supporting text below as a natural lead-in to additional content.</p>
                   <p>With supporting text below as a natural lead-in to additional content.</p>
@@ -158,9 +178,53 @@
                   <a href="#" class="btn btn-light">Etherscan</a>
                   <a href="#" class="btn btn-light">Other Source</a>
                 </div>
-                <div class="col-lg-1"></div>
-                <div class="col-lg-3">
-                  <form [formGroup]="approveForm" (ngSubmit)="confirmApprove()">
+                <div class="col-lg-1">
+                  &nbsp;
+                </div>
+                <div class="col-lg-4">
+                  <div *ngIf="selectedOperation == 'menu'" class="row">
+                    <div class="col-6">
+                      <h6>Wallet Balance</h6>
+                      <fieldset class="form-group">
+                        <h4>1.00000</h4>
+                        <p>{{selectedVault}}</p>
+                      </fieldset>
+                    </div>
+                    <div class="col-6">
+                      <h6>Vault Balance</h6>
+                      <fieldset class="form-group">
+                        <h4>10.00000</h4>
+                        <p>{{selectedVault}}</p>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedOperation == 'menu'" class="list-group">
+                    <a (click)="selectOperation('deposit')"
+                      class="list-group-item list-group-item-action flex-column align-items-start bg-success text-white">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><strong>Deposit </strong></h5>
+                        <small class="text-white">i</small>
+                      </div>
+                      <small class="text-white"><strong>Avaiable: 1.0000</strong></small>
+                    </a>
+                    <a (click)="selectOperation('withdraw')"
+                      class="list-group-item list-group-item-action flex-column align-items-start bg-danger text-white mt-3">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Withdraw</h5>
+                        <small class="text-white">i</small>
+                      </div>
+                      <small class="text-white">Avaiable: 10.0000</small>
+                    </a>
+                    <a (click)="selectOperation('deposit')"
+                    class="list-group-item list-group-item-action flex-column align-items-start bg-light text-primary mt-3">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"><strong>Calculate</strong></h5>
+                      <small>i</small>
+                    </div>
+                    <small>Simulate your future profits</small>
+                  </a>
+                  </div>
+                  <form *ngIf="selectedOperation == 'deposit'" [formGroup]="approveForm" (ngSubmit)="confirmDeposit()">
                     <fieldset>
                       <legend>Deposit</legend>
                       <fieldset class="form-group">
@@ -181,21 +245,19 @@
                         <div class="form-check">
                           <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" value="">
-                              I agree with supporting text below as a natural lead-in to additional content.
+                            I agree with supporting text below as a natural lead-in to additional content.
                           </label>
                         </div>
                       </fieldset>
                     </fieldset>
+                    <a href="#" class="btn btn-block btn-success"><strong> Confirm Your Deposit</strong></a>
                   </form>
-                  <a href="#" class="btn btn-block btn-success"><strong> Confirm Your Deposit</strong></a>
-                </div>
-                <div class="col-lg-1"></div>
-                <div class="col-lg-3">
-                  <form [formGroup]="approveForm" (ngSubmit)="confirmApprove()">
+                  <form *ngIf="selectedOperation == 'withdraw'" [formGroup]="withdrawForm"
+                    (ngSubmit)="confirmWithdraw()">
                     <fieldset>
-                      <legend>Whitdraw</legend>
+                      <legend>Withdraw</legend>
                       <fieldset class="form-group">
-                        <label>Your Balance</label>
+                        <label>Vault Balance</label>
                         <h3>1.00000000 <small>{{selectedVault}}</small></h3>
                       </fieldset>
                       <fieldset class="form-group">
@@ -212,20 +274,30 @@
                         <div class="form-check">
                           <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" value="">
-                              I agree with supporting text below as a natural lead-in to additional content.
+                            I agree with supporting text below as a natural lead-in to additional content.
                           </label>
                         </div>
                       </fieldset>
                     </fieldset>
+                    <a href="#" class="btn btn-block btn-danger"><strong> Confirm Your Withdraw</strong></a>
+                    <a href="#" class="btn btn-block btn-danger"><strong> Confirm Your Withdraw</strong></a>
                   </form>
-                  <a href="#" class="btn btn-block btn-danger"><strong> Confirm Your Withdraw</strong></a>
+                </div>
+                <div class="col-lg-1">&nbsp;</div>
+                <div class="col-lg-2">
+                  <legend>Step by Step</legend>
+                  <p>Select Operation.</p>
+                  <p>Set a value.</p>
+                  <p>Click to submit your ioperation.</p>
+                  <p>Confirm operation in your wallet.</p>
+                  <p>Wait for de tx.</p>
+                  <p>Congratulation</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

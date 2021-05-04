@@ -12,9 +12,13 @@ export class AppComponent implements OnInit {
   page:string;
   largeBox: string;
   smallBox: string;
+  stepBox: string;
   assets: number;
   selectedVault: any;
+  selectedOperation: any;
   approveForm: FormGroup;
+  withdrawForm: FormGroup;
+  calculateForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,9 +27,18 @@ export class AppComponent implements OnInit {
     this.page =  'list';
     this.largeBox = 'vaults';
     this.smallBox = 'offline';
+    this.selectedOperation = 'menu';
+    this.stepBox = 'zero';
     this.assets = 0;
     this.approveForm = this.formBuilder.group({
       valueApprove: ['', Validators.required, Validators.pattern("^[0-9]*$")]
+    });
+    this.withdrawForm = this.formBuilder.group({
+      valueApprove: ['', Validators.required, Validators.pattern("^[0-9]*$")]
+    });
+    this.calculateForm = this.formBuilder.group({
+      value: ['', Validators.required, Validators.pattern("^[0-9]*$")],
+      time: [365, Validators.required],
     });
   }
 
@@ -35,33 +48,27 @@ export class AppComponent implements OnInit {
     //setWallet
   }
 
+  connectMetamask() {
+    this.smallBox = 'waiting'
+    //this.metamaskService.connectWallet();
+    this.smallBox = 'connected'
+  }
+
   selectVault(vault: string) {
     this.largeBox = 'selected'
     this.selectedVault = vault
   }
 
-  async confirmApprove(){
+  selectOperation(operation: string) {
+    this.selectedOperation = operation
+  }
+
+  async confirmDeposit(){
     this.largeBox = 'step1'
   }
 
-  connectMetamask() {
-    this.smallBox = 'waiting'
-    //this.metamaskService.connectWallet();
+  async confirmWithdraw(){
+    this.largeBox = 'step1'
   }
 
-  firstDeposit() {
-    this.smallBox = 'task1'
-  }
-
-  task1() {
-    this.smallBox = 'task2'
-  }
-
-  task2() {
-    this.smallBox = 'task3'
-  }
-
-  task3() {
-    this.smallBox = 'success'
-  }
 }
