@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-lg-12" style="margin-top: 100px;">
+      <div class="page-header">
+        <h3>{{selectedVault}}&nbsp;Vault&nbsp;&nbsp;&nbsp;&nbsp;<a href="../" class="btn btn-light">Back to Vaults</a></h3>
+      </div>
+      <div class="bs-component">
+        <div class="card" style="margin-top: 30px;">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-4">
+                <legend>Info</legend>
+                <p>With supporting text below as a natural lead-in to additional content.</p>
+                <p>With supporting text below as a natural lead-in to additional content.</p>
+                <p>With supporting text below as a natural lead-in to additional content.</p>
+                <p>With supporting text below as a natural lead-in to additional content.</p>
+                <p>With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-light">Etherscan</a>
+              </div>
+              <div class="col-lg-1">
+                &nbsp;
+              </div>
+              <div class="col-lg-4">
+                <div *ngIf="selectedOperation == 'menu'" class="row">
+                  <div class="col-6">
+                    <h6>Wallet Balance</h6>
+                    <fieldset class="form-group">
+                      <h4>1.00000</h4>
+                      <p>{{selectedVault}}</p>
+                    </fieldset>
+                  </div>
+                  <div class="col-6">
+                    <h6>Deposited Balance</h6>
+                    <fieldset class="form-group">
+                      <h4>10.00000</h4>
+                      <p>{{selectedVault}}</p>
+                    </fieldset>
+                  </div>
+                </div>
+                <div *ngIf="selectedOperation == 'menu'" class="list-group">
+                  <a (click)="selectOperation('deposit')"
+                    class="list-group-item list-group-item-action flex-column align-items-start bg-success text-white">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"><strong>Deposit </strong></h5>
+                      <small class="text-white">i</small>
+                    </div>
+                    <small class="text-white"><strong>Avaiable: 1.0000</strong></small>
+                  </a>
+                  <a (click)="selectOperation('withdraw')"
+                    class="list-group-item list-group-item-action flex-column align-items-start bg-danger text-white mt-3">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Withdraw</h5>
+                      <small class="text-white">i</small>
+                    </div>
+                    <small class="text-white">Avaiable: 10.0000</small>
+                  </a>
+                  <a (click)="selectOperation('deposit')"
+                  class="list-group-item list-group-item-action flex-column align-items-start bg-light text-primary mt-3">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><strong>Calculate</strong></h5>
+                    <small>i</small>
+                  </div>
+                  <small>Simulate your future profits</small>
+                </a>
+                </div>
+              </div>
+              <div class="col-lg-1">&nbsp;</div>
+              <div class="col-lg-2">
+                <legend>Step by Step</legend>
+                <p>Select Operation.</p>
+                <p>Set a value.</p>
+                <p>Submit your operation.</p>
+                <p *ngIf="selectedVault != 'Ethereum'">Approve operation in your wallet.</p>
+                <p>Confirm operation in your wallet.</p>
+                <p>Wait for de tx complete.</p>
+                <p>Congratulations</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

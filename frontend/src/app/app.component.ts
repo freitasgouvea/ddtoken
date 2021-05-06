@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Vault } from './models/vault.model'
 //import { MetamaskService } from 'src/app/services/metamask.service';
 
 @Component({
@@ -9,40 +9,22 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   title = 'DTToken'
-  page:string;
   largeBox: string;
   smallBox: string;
-  stepBox: string;
+  vaults: Vault[];
   assets: number;
   selectedVault: any;
-  selectedOperation: any;
-  approveForm: FormGroup;
-  withdrawForm: FormGroup;
-  calculateForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
     //private metamaskService: MetamaskService
-  ){
-    this.page =  'list';
+  ) {
     this.largeBox = 'vaults';
     this.smallBox = 'offline';
-    this.selectedOperation = 'menu';
-    this.stepBox = 'zero';
     this.assets = 0;
-    this.approveForm = this.formBuilder.group({
-      valueApprove: ['', Validators.required, Validators.pattern("^[0-9]*$")]
-    });
-    this.withdrawForm = this.formBuilder.group({
-      valueApprove: ['', Validators.required, Validators.pattern("^[0-9]*$")]
-    });
-    this.calculateForm = this.formBuilder.group({
-      value: ['', Validators.required, Validators.pattern("^[0-9]*$")],
-      time: [365, Validators.required],
-    });
-  }
+    this.vaults = [];
+   }
 
-  ngOnInit(){
+  ngOnInit() {
     //connectWeb3
     //connectMetamask
     //setWallet
@@ -57,18 +39,6 @@ export class AppComponent implements OnInit {
   selectVault(vault: string) {
     this.largeBox = 'selected'
     this.selectedVault = vault
-  }
-
-  selectOperation(operation: string) {
-    this.selectedOperation = operation
-  }
-
-  async confirmDeposit(){
-    this.largeBox = 'step1'
-  }
-
-  async confirmWithdraw(){
-    this.largeBox = 'step1'
   }
 
 }
