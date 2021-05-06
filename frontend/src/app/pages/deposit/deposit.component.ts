@@ -29,4 +29,13 @@ export class DepositComponent implements OnInit {
 
   }
 
+  async confirmDeposit(){
+    this.step = 'waiting'
+    this.stepChange.emit('waiting');
+  }
+
+  backButton(){
+    this.stepChange.emit('menu');
+  }
+
 }

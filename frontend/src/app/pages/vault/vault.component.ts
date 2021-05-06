@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Vault } from '../../models/vault.model'
 import { Coin } from '../../models/coin.model'
+import { holdersData } from '../../graphs/holders'
 
 @Component({
   selector: 'app-vault',
@@ -11,12 +12,14 @@ import { Coin } from '../../models/coin.model'
 
 export class VaultComponent implements OnInit {
   @Input('selectedVault') selectedVault!: string;
-  @Input('stepChange') stepChange!: string;
+  @Input('stepChange') step!: string;
+  @Input('stepChange') selectedOperation!: string;
   //vault: Vault;
   //coin: Coin;
-  selectedOperation: any;
   calculateForm: FormGroup;
-  step = 'zero';
+  holdersGraph = holdersData;
+  options: any;
+  vaultView = 'info';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,19 +35,58 @@ export class VaultComponent implements OnInit {
   ngOnInit(): void {
     this.selectedOperation = 'menu';
     this.step = 'zero';
+    this.initGraph();
     //this.vault = null;
   }
 
+  initGraph(){
+    const xAxisData = [];
+    const data1 = [];
+    const data2 = [];
+
+    for (let i = 0; i < 100; i++) {
+      xAxisData.push(i);
+      data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
+      data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+    }
+
+    this.options = {
+      legend: {
+        data: ['balance', 'apy'],
+        align: 'right',
+      },
+      tooltip: {},
+      xAxis: {
+        data: xAxisData,
+        silent: false,
+        splitLine: {
+          show: false,
+        },
+      },
+      yAxis: {},
+      series: [
+        {
+          name: 'balance',
+          type: 'bar',
+          data: data1
+        },
+        {
+          name: 'apy',
+          type: 'bar',
+          data: data2
+        },
+      ],
+      animationEasing: 'elasticOut'
+     
+    };
+  }
+
   selectOperation(operation: string) {
-    this.selectedOperation = operation
+    this.selectedOperation = operation;
   }
-
-  async confirmDeposit(){
-    this.step = 'form'
-  }
-
-  async confirmWithdraw(){
-    this.step = 'form'
+  
+  changeView(view: string) {
+    this.vaultView = view;
   }
 
 }

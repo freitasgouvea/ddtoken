@@ -11,6 +11,7 @@ export class WithdrawComponent implements OnInit {
   @Input('selectedVault') selectedVault!: string;
   @Input() step: string;
   @Output() stepChange = new EventEmitter<string>();
+  @Output() operationChange = new EventEmitter<string>();
   //vault: Vault;
   withdrawForm: FormGroup;
 
@@ -27,8 +28,13 @@ export class WithdrawComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  sendTransaction(){
+  async confirmWithdraw(){
+    this.step = 'waiting'
     this.stepChange.emit('waiting');
+  }
+
+  backButton(){
+    this.stepChange.emit('menu');
   }
 
 }

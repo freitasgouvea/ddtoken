@@ -1,10 +1,6 @@
 <form [formGroup]="approveForm" (ngSubmit)="confirmDeposit()">
     <fieldset>
-        <legend>Deposit</legend>
-        <fieldset class="form-group">
-            <label>Wallet Balance</label>
-            <h3>4.55555 <small>{{selectedVault}}</small></h3>
-        </fieldset>
+        <legend>Deposit <a href="../" class="btn btn-sm btn-light float-right">Back to Options</a></legend>
         <fieldset class="form-group">
             <label>Select a Value</label>
             <div class="input-group">
@@ -25,6 +21,4 @@
         </fieldset>
     </fieldset>
     <a href="#" class="btn btn-block btn-success"><strong> Confirm Your Deposit</strong></a>
-    <a href="#" class="btn btn-block btn-secondary" (click)="selectOperation('menu')"><strong> Back to
-            Optoins</strong></a>
 </form>

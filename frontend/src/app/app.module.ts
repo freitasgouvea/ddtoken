@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { VaultComponent } from './pages/vault/vault.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,10 @@ import { WithdrawComponent } from './pages/withdraw/withdraw.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
