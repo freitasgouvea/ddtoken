@@ -3,5 +3,5 @@ export interface Coin {
     symbol: string;
     currentPrice: string;
     address: string;
-    abi: string;
+    abi: any;
 }

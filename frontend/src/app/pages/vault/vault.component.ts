@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { SharedService } from '../../services/shared.service';
+//import { Observable } from 'rxjs';
 import { Vault } from '../../models/vault.model'
-import { Coin } from '../../models/coin.model'
+import { vaultsData } from '../../data/vaults.data';
+//import { Coin } from '../../models/coin.model';
 import { holdersData } from '../../graphs/holders'
 
 @Component({
@@ -11,20 +15,24 @@ import { holdersData } from '../../graphs/holders'
 })
 
 export class VaultComponent implements OnInit {
-  @Input('selectedVault') selectedVault!: string;
   @Input('stepChange') step!: string;
-  @Input('stepChange') selectedOperation!: string;
-  //vault: Vault;
-  //coin: Coin;
+  wallet: any;
+  vault: any;
+  selectedOperation!: string;
   calculateForm: FormGroup;
   holdersGraph = holdersData;
   options: any;
   vaultView = 'info';
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router, 
     private formBuilder: FormBuilder,
+    private sharedData: SharedService,
     //private metamaskService: MetamaskService
   ) {
+    const vaultId = this.route.snapshot.paramMap.get('id');
+    vaultsData.filter(item => item.id == vaultId).map(item => this.vault = item);
     this.calculateForm = this.formBuilder.group({
       value: ['', Validators.required, Validators.pattern("^[0-9]*$")],
       time: [365, Validators.required],
@@ -33,10 +41,19 @@ export class VaultComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedData.currentWallet.subscribe(walletAddress => this.wallet = walletAddress);
     this.selectedOperation = 'menu';
     this.step = 'zero';
     this.initGraph();
     //this.vault = null;
+  }
+
+  connectMetamask() {
+    //this.smallBox = 'waiting'
+    let address = '0x000teste'
+    //this.metamaskService.connectWallet();
+    this.sharedData.changeWallet(address);
+    //this.smallBox = 'connected'
   }
 
   initGraph(){

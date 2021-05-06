@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-lg-12" style="margin-top: 100px;">
     <div class="page-header">
-      <h3><i class="fas fa-coins"></i>&nbsp;&nbsp;{{selectedVault}}&nbsp;Vault&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <h3>&nbsp;&nbsp;{{vault.name | uppercase}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         <button *ngIf="vaultView == 'info'" class="btn btn-primary"
         (click)="changeView('info')">Info</button>
       <button *ngIf="vaultView != 'info'" class="btn btn-light"
@@ -23,67 +23,66 @@
       <div class="card bg-outline-primary" style="margin-top: 15px;">
         <div class="card-body">
           <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-5 mt-3">
               <div *ngIf="vaultView == 'graph'" echarts [options]="options"></div>
               <div *ngIf="vaultView == 'holders'" echarts [options]="holdersGraph"></div>
-              <div *ngIf="vaultView == 'info'" class="row ml-2">
+              <div *ngIf="vaultView == 'info'" class="row ml-1">
                 <div class="col-12 mb-2">
-                  <h5>Type: Yearn Vault V3</h5>
-                  <h6>Coin: {{selectedVault}}</h6>
-                  <h6>Network: Ethereum Main</h6>
-                  <h6>Contract Address: 0x00000000000000</h6>
-                </div>
-                <div class="col-6">
-                  <h6>Total Deposited</h6>
+                  <h5>Type: {{vault.source}}</h5>
                   <fieldset class="form-group">
-                    <h4>450.00000</h4>
-                    <small>{{selectedVault}}</small>
+                    <h2>{{vault.balance}} <small style="font-size: medium;" >{{vault.symbol}}</small></h2>
+                                      <h6>Total Cap.</h6>
                   </fieldset>
                 </div>
-                <div class="col-6">
-                  <h6>APY</h6>
+                <div class="col-4">
                   <fieldset class="form-group">
-                    <h4>15.00</h4>
-                    <small>%</small>
+                    <h3>{{vault.apy}} <small>%</small></h3>
+                    <h6>APY</h6>
                   </fieldset>
                 </div>
-                <div class="col-6">
-                  <h6>Holders</h6>
+                <div class="col-4">
                   <fieldset class="form-group">
-                    <h4>5</h4>
-                    <small>addresses</small>
+                    <h3>587</h3>
+                    <h6>Transactions</h6>
                   </fieldset>
                 </div>
-                <div class="col-6">
-                  <h6>Transactions</h6>
+                <div class="col-4">
                   <fieldset class="form-group">
-                    <h4>587</h4>
-                    <small>subtitle</small>
+                    <h3>5</h3>
+                    <h6>Holders</h6>
                   </fieldset>
                 </div>
                 <div class="col-12 mb-2">
-                  <a href="../" class="btn btn-sm btn-secondary mr-2">Etherscan</a>
-                  <a href="../" class="btn btn-sm btn-secondary mr-2">Yearn</a>
+                  <h6></h6>
+                  <h6>Coin: <strong>{{vault.name}}</strong></h6>
+                  <h6>Network: <strong>{{vault.network}}</strong></h6>
+                  <h6>Pattern: <strong>{{vault.pattern}}</strong></h6>
+                  <h6>Vault Address: <strong>{{vault.address}}</strong></h6>
+                </div>
+                <div class="col-12 mb-2">
                 </div>
               </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5 mt-3">
               <div class="card text-white bg-primary mb-2">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-6">
-                      <h6>Wallet Balance</h6>
-                      <fieldset class="form-group">
-                        <h4>1.00000</h4>
-                        <small>{{selectedVault}}</small>
-                      </fieldset>
+                      <div class="d-flex w-100 justify-content-between">
+                        <h6>Deposited</h6>
+                      </div>
+                  
+                        <h4><strong>3.00000 </strong><small style="font-size: medium;" >{{vault.symbol}}</small></h4>
+                    
                     </div>
                     <div class="col-6">
-                      <h6>Deposited Balance</h6>
-                      <fieldset class="form-group">
-                        <h4>10.00000</h4>
-                        <small>{{selectedVault}}</small>
-                      </fieldset>
+                      <div class="d-flex w-100 justify-content-between">
+                        <h6>Wallet</h6>
+                        <i class="fas fa-wallet fa-lg"></i>
+                      </div>
+               
+                        <h4><strong>2.85654 </strong><small style="font-size: medium;" >{{vault.symbol}}</small></h4>
+             
                     </div>
                   </div>
                 </div>
@@ -93,7 +92,7 @@
                   class="list-group-item list-group-item-action flex-column align-items-start bg-success text-white">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"><strong>Deposit </strong></h5>
-                    <small class="text-white">i</small>
+                    <i class="fas fa-arrow-circle-down fa-lg"></i>
                   </div>
                   <small class="text-white"><strong>Avaiable: 1.0000</strong></small>
                 </a>
@@ -101,7 +100,7 @@
                   class="list-group-item list-group-item-action flex-column align-items-start bg-danger text-white mt-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Withdraw</h5>
-                    <small class="text-white">i</small>
+                    <i class="fas fa-arrow-circle-up fa-lg"></i>
                   </div>
                   <small class="text-white">Avaiable: 10.0000</small>
                 </a>
@@ -109,24 +108,29 @@
                   class="list-group-item list-group-item-action flex-column align-items-start bg-light text-primary mt-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"><strong>Calculate</strong></h5>
-                    <small>i</small>
+                    <i class="fas fa-calculator fa-lg"></i>
                   </div>
                   <small>Simulate your future profits</small>
                 </a>
               </div>
-              <app-deposit *ngIf="selectedOperation == 'deposit'" ></app-deposit>
-              <app-withdraw *ngIf="selectedOperation == 'withdraw'" ></app-withdraw>
+              <app-deposit [vault]="vault" *ngIf="selectedOperation == 'deposit'" ></app-deposit>
+              <app-withdraw [vault]="vault" *ngIf="selectedOperation == 'withdraw'" ></app-withdraw>
             </div>
-            <div class="col-lg-2">
-              <legend><i class="far fa-life-ring"></i> Steps</legend>
-              <p><i class="fas fa-bookmark"></i> Select Vault.</p>
-              <p><i class="far fa-bookmark"></i> Select Operation.</p>
-              <p><i class="far fa-bookmark"></i> Set a value.</p>
-              <p><i class="far fa-bookmark"></i> Submit your operation.</p>
-              <p *ngIf="selectedVault != 'Ethereum'"><i class="far fa-bookmark"></i> Approve operation in your wallet.</p>
-              <p><i class="far fa-bookmark"></i> Confirm operation in your wallet.</p>
-              <p><i class="far fa-bookmark"></i> Wait for de tx complete.</p>
-              <p><i class="far fa-bookmark"></i> Congratulations</p>
+            <div class="col-lg-2 mt-3">
+              <div class="row">
+                <div class="col-md-12 col-sm-6">
+                  <p><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Select Vault.</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Select Operation.</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Set a value.</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Submit your operation.</p>
+                </div>
+                <div class="col-md-12 col-sm-6">
+                  <p *ngIf="vault.id != 'eth'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Approve operation in your wallet.</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Confirm operation in your wallet.</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Wait for de tx complete.</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Congratulations</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

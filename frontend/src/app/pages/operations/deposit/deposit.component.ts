@@ -1,17 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Vault } from '../../models/vault.model'
+import { Vault } from '../../../models/vault.model'
 
 @Component({
   selector: 'app-deposit',
   templateUrl: './deposit.component.html',
   styleUrls: ['./deposit.component.css']
 })
+
 export class DepositComponent implements OnInit {
-  @Input('selectedVault') selectedVault!: string;
+  @Input() vault?: Vault;
   @Input() step: string;
   @Output() stepChange = new EventEmitter<string>();
-  //vault: Vault;
   approveForm: FormGroup;
 
   constructor(
@@ -25,9 +25,7 @@ export class DepositComponent implements OnInit {
     });
    }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   async confirmDeposit(){
     this.step = 'waiting'
@@ -35,7 +33,7 @@ export class DepositComponent implements OnInit {
   }
 
   backButton(){
-    this.stepChange.emit('menu');
+    this.stepChange.emit('');
   }
 
 }

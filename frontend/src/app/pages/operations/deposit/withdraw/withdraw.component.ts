@@ -1,18 +1,17 @@
 import { Component, Input, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Vault } from '../../models/vault.model'
+import { Vault } from '../../../../models/vault.model'
 
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.css']
 })
+
 export class WithdrawComponent implements OnInit {
-  @Input('selectedVault') selectedVault!: string;
+  @Input() vault?: Vault;
   @Input() step: string;
   @Output() stepChange = new EventEmitter<string>();
-  @Output() operationChange = new EventEmitter<string>();
-  //vault: Vault;
   withdrawForm: FormGroup;
 
   constructor(
@@ -34,7 +33,7 @@ export class WithdrawComponent implements OnInit {
   }
 
   backButton(){
-    this.stepChange.emit('menu');
+    this.stepChange.emit('');
   }
 
 }
