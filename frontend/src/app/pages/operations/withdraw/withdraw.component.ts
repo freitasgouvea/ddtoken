@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Vault } from '../../../../models/vault.model'
+import { Vault } from '../../../models/vault.model'
 
 @Component({
   selector: 'app-withdraw',

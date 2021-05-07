@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Vault } from '../../models/vault.model';
 import { vaultsData } from '../../data/vaults.data';
 import { SharedService } from '../../services/shared.service';
-import { Wallet } from 'src/app/models/wallet.model';
+import { BlockchainService } from 'src/app/services/blockchain.service';
 //import { MetamaskService } from 'src/app/services/metamask.service';
 //import { Observable } from 'rxjs';
 //import { switchMap } from 'rxjs/operators';
@@ -18,13 +18,13 @@ export class LandingComponent implements OnInit {
   smallBox: string;
   vaults: Vault[];
   wallet: any;
-  //wallet?: Wallet;
   assets: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private sharedData: SharedService 
+    private sharedData: SharedService,
+    private blockchainService: BlockchainService 
   ) {
     this.smallBox = 'offline';
     this.vaults = vaultsData;
@@ -32,17 +32,15 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sharedData.currentWallet.subscribe(walletAddress => this.wallet = walletAddress);
-    //connectWeb3
-    //connectMetamask
-    //setWallet
+    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
   }
 
   connectMetamask() {
     this.smallBox = 'waiting'
     let address = '0x000teste'
-    //this.metamaskService.connectWallet();
-    this.sharedData.changeWallet(address);
+    this.blockchainService.connectWallet();
+    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
+    console.log(this.wallet);
     this.smallBox = 'connected'
   }
 

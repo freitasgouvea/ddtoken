@@ -5,9 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VaultComponent } from './pages/vault/vault.component';
 import { DepositComponent } from './pages/operations/deposit/deposit.component';
-import { WithdrawComponent } from './pages/operations/deposit/withdraw/withdraw.component';
+import { WithdrawComponent } from './pages/operations/withdraw/withdraw.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { LandingComponent } from './pages/landing/landing.component';
+import { BlockchainService } from './services/blockchain.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,10 @@ import { LandingComponent } from './pages/landing/landing.component';
       echarts: () => import('echarts')
     })
   ],
-  providers: [],
+  providers: [
+    BlockchainService,
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

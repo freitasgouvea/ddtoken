@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Wallet } from 'ethers';
 import { BehaviorSubject } from 'rxjs';
 //import { Wallet } from '../models/wallet.model';
 
@@ -9,11 +10,11 @@ export class SharedService {
 
   constructor() { }
 
-  private walletSource = new BehaviorSubject({address: '0x00'});
+  private walletSource = new BehaviorSubject(Wallet);
   currentWallet = this.walletSource.asObservable();
   
-  changeWallet(addressToChange: string) {
-    this.walletSource.next({address: addressToChange});
+  updateWallet(wallet: any) {
+    this.walletSource.next(wallet);
   }
 
 }

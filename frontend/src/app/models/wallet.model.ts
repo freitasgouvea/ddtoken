@@ -1,4 +1,5 @@
 export interface Wallet {
     address: string;
-    assets: []
+    assets: [];
+    vaults: [];
 }
