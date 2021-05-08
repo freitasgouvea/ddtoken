@@ -1,37 +1,31 @@
 <div class="row">
   <div class="col-lg-12" style="margin-top: 100px;">
     <div class="page-header">
-      <h3>&nbsp;&nbsp;{{vault.name | uppercase}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        <button *ngIf="vaultView == 'info'" class="btn btn-primary"
-        (click)="changeView('info')">Info</button>
-      <button *ngIf="vaultView != 'info'" class="btn btn-light"
-        (click)="changeView('info')">Info</button>
+      <h3>&nbsp;&nbsp;{{vault.name | uppercase}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button *ngIf="vaultView == 'info'" class="btn btn-primary" (click)="changeView('info')">Info</button>
+        <button *ngIf="vaultView != 'info'" class="btn btn-light" (click)="changeView('info')">Info</button>
 
-      <button *ngIf="vaultView == 'graph'" class="btn btn-primary"
-        (click)="changeView('graph')">Balance/APY</button>
-      <button *ngIf="vaultView != 'graph'" class="btn btn-light"
-        (click)="changeView('graph')">Balance/APY</button>
+        <button *ngIf="vaultView == 'graph'" class="btn btn-primary" (click)="changeView('graph')">Balance/APY</button>
+        <button *ngIf="vaultView != 'graph'" class="btn btn-light" (click)="changeView('graph')">Balance/APY</button>
 
-      <button *ngIf="vaultView == 'holders'" class="btn btn-primary"
-        (click)="changeView('holders')">Holders</button>
-      <button *ngIf="vaultView != 'holders'" class="btn btn-light"
-        (click)="changeView('holders')">Holders</button>
-      <a href="../" class="btn btn-sm btn-light float-right">Back to Vaults</a>
+        <button *ngIf="vaultView == 'holders'" class="btn btn-primary" (click)="changeView('holders')">Holders</button>
+        <button *ngIf="vaultView != 'holders'" class="btn btn-light" (click)="changeView('holders')">Holders</button>
+        <a href="../" class="btn btn-sm btn-light float-right">Back to Vaults</a>
       </h3>
     </div>
     <div class="bs-component">
       <div class="card bg-outline-primary" style="margin-top: 15px;">
         <div class="card-body">
           <div class="row">
-            <div class="col-lg-5 mt-3">
+            <div class="col-lg-5 mt-2">
               <div *ngIf="vaultView == 'graph'" echarts [options]="options"></div>
-              <div *ngIf="vaultView == 'holders'" echarts [options]="holdersGraph"></div>
+              <div *ngIf="vaultView == 'holders'" echarts [options]="holdersGraphSource"></div>
               <div *ngIf="vaultView == 'info'" class="row ml-1">
                 <div class="col-12 mb-2">
                   <h5>Type: {{vault.source}}</h5>
                   <fieldset class="form-group">
-                    <h2>{{vault.balance}} <small style="font-size: medium;" >{{vault.symbol}}</small></h2>
-                                      <h6>Total Cap.</h6>
+                    <h2>{{vault.balance}}.00000 <small style="font-size: medium;">{{vault.symbol}}</small></h2>
+                    <h6>Total Cap.</h6>
                   </fieldset>
                 </div>
                 <div class="col-4">
@@ -42,13 +36,13 @@
                 </div>
                 <div class="col-4">
                   <fieldset class="form-group">
-                    <h3>587</h3>
+                    <h3>{{vault.txs}} </h3>
                     <h6>Transactions</h6>
                   </fieldset>
                 </div>
                 <div class="col-4">
                   <fieldset class="form-group">
-                    <h3>5</h3>
+                    <h3>{{holdersNumber}}</h3>
                     <h6>Holders</h6>
                   </fieldset>
                 </div>
@@ -63,26 +57,21 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-5 mt-3">
+            <div class="col-lg-5 mt-1">
               <div class="card text-white bg-primary mb-2">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-6">
                       <div class="d-flex w-100 justify-content-between">
-                        <h6>Deposited</h6>
+                        <h6>Deposited Balance</h6>
                       </div>
-                  
-                        <h4><strong>3.00000 </strong><small style="font-size: medium;" >{{vault.symbol}}</small></h4>
-                    
+                      <h4><strong>0 </strong><small style="font-size: medium;">{{vault.symbol}}</small></h4>
                     </div>
                     <div class="col-6">
                       <div class="d-flex w-100 justify-content-between">
-                        <h6>Wallet</h6>
-                        <i class="fas fa-wallet fa-lg"></i>
+                        <h6>Wallet Balance</h6>
                       </div>
-               
-                        <h4><strong>2.85654 </strong><small style="font-size: medium;" >{{vault.symbol}}</small></h4>
-             
+                      <h4><strong>{{walletBalance}}.00000 <small style="font-size: medium;">{{vault.symbol}}</small></strong></h4>
                     </div>
                   </div>
                 </div>
@@ -113,22 +102,23 @@
                   <small>Simulate your future profits</small>
                 </a>
               </div>
-              <app-deposit [vault]="vault" *ngIf="selectedOperation == 'deposit'" ></app-deposit>
-              <app-withdraw [vault]="vault" *ngIf="selectedOperation == 'withdraw'" ></app-withdraw>
+              <app-deposit [vault]="vault" *ngIf="selectedOperation == 'deposit'"></app-deposit>
+              <app-withdraw [vault]="vault" *ngIf="selectedOperation == 'withdraw'"></app-withdraw>
             </div>
-            <div class="col-lg-2 mt-3">
+            <div class="col-lg-2 mt-4">
               <div class="row">
                 <div class="col-md-12 col-sm-6">
-                  <p><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Select Vault.</p>
-                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Select Operation.</p>
-                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Set a value.</p>
-                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Submit your operation.</p>
+                  <p><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Select vault</p>
+                  <p *ngIf="selectedOperation == 'menu'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Select operation</p>
+                  <p *ngIf="selectedOperation != 'menu'"><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Select operation</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Set a value and submit</p>
                 </div>
                 <div class="col-md-12 col-sm-6">
-                  <p *ngIf="vault.id != 'eth'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Approve operation in your wallet.</p>
+                  <p *ngIf="vault.id != 'eth'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Approve in your
+                    wallet.</p>
                   <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Confirm operation in your wallet.</p>
                   <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Wait for de tx complete.</p>
-                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Congratulations</p>
+                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Congratulations, your tx has been completed</p>
                 </div>
               </div>
             </div>

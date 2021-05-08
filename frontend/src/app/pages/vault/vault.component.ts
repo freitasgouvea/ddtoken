@@ -2,11 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
-//import { Observable } from 'rxjs';
-import { Vault } from '../../models/vault.model'
 import { vaultsData } from '../../data/vaults.data';
-//import { Coin } from '../../models/coin.model';
-import { holdersData } from '../../graphs/holders'
+import { holdersData } from '../../data/holders.data';
+import { DemoService } from 'src/app/services/demo.service';
 
 @Component({
   selector: 'app-vault',
@@ -17,22 +15,37 @@ import { holdersData } from '../../graphs/holders'
 export class VaultComponent implements OnInit {
   @Input('stepChange') step!: string;
   wallet: any;
+  walletBalance: any;
   vault: any;
   selectedOperation!: string;
   calculateForm: FormGroup;
-  holdersGraph = holdersData;
+  holdersGraphSource = holdersData;
+  holdersNumber: number;
   options: any;
   vaultView = 'info';
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router, 
+    private router: Router,
+    private demoService: DemoService, 
     private formBuilder: FormBuilder,
     private sharedData: SharedService,
     //private metamaskService: MetamaskService
   ) {
-    const vaultId = this.route.snapshot.paramMap.get('id');
-    vaultsData.filter(item => item.id == vaultId).map(item => this.vault = item);
+    this.wallet = this.demoService.refreshWalletDemo();
+    let vaultId = this.route.snapshot.paramMap.get('id');
+    if (vaultId == 'eth') {
+      this.walletBalance = this.wallet.assets[0].balance;
+      this.sharedData.vaultStatus.subscribe(status => this.vault = status[0]);
+    } else {
+      this.walletBalance = this.wallet.assets[1].balance;
+      this.sharedData.vaultStatus.subscribe(status => this.vault = status[1]);
+    }
+    console.log(this.vault)
+    if(this.vault == null){
+      vaultsData.filter(item => item.id == vaultId).map(item => this.vault = item);
+    }
+    this.holdersNumber = this.vault.holders.length
     this.calculateForm = this.formBuilder.group({
       value: ['', Validators.required, Validators.pattern("^[0-9]*$")],
       time: [365, Validators.required],
@@ -41,22 +54,21 @@ export class VaultComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sharedData.currentWallet.subscribe(walletAddress => this.wallet = walletAddress);
+    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
     this.selectedOperation = 'menu';
     this.step = 'zero';
-    this.initGraph();
-    //this.vault = null;
+    this.initHoldersGraph();
+    this.initBalanceGraph();
   }
 
-  connectMetamask() {
-    //this.smallBox = 'waiting'
-    let address = '0x000teste'
-    //this.metamaskService.connectWallet();
-    this.sharedData.changeWallet(address);
-    //this.smallBox = 'connected'
+  initHoldersGraph(){
+    this.holdersGraphSource = holdersData
+    //set this.holdersGraphSource.legend
+    console.log(this.vault.holders)
+    this.holdersGraphSource.series[0].data = this.vault.holders
   }
 
-  initGraph(){
+  initBalanceGraph(){
     const xAxisData = [];
     const data1 = [];
     const data2 = [];

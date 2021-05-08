@@ -7,11 +7,30 @@ export const vaultsData = [
         source: 'Yearn Vault V3',
         network: 'Ethereum Main Network',
         pattern: 'Native',
-        address: '0x000',
-        balance: '350.00000',
+        address: '0x5803df166D2eed917Ccd9C6197c1D35D2C1474DD',
+        balance: 350,
         apy: '3.68',
         abi: [],
-        active: true
+        active: true,
+        txs: 125,
+        holders:[
+            {
+                name: '0x001',
+                value: 100.0000
+            },
+            {
+                name: '0x002',
+                value: 100.0000
+            },
+            {
+                name: '0x003',
+                value: 100.0000
+            },
+            {
+                name: '0x004',
+                value: 50.0000
+            },
+        ]
     },
     {
         id: 'dai',
@@ -22,10 +41,29 @@ export const vaultsData = [
         network: 'Ethereum Main Network',
         pattern: 'ERC-20',
         address: '0x5803df166D2eed917Ccd9C6197c1D35D2C1474DD',
-        balance: '150000.00000',
+        balance: 200000,
         apy: '12.55',
         abi: [],
-        active: true
+        active: true,
+        txs: 125,
+        holders: [
+            {
+                name: '0x001',
+                value: 100000.0000
+            },
+            {
+                name: '0x002',
+                value: 50000.0000
+            },
+            {
+                name: '0x003',
+                value: 25000.0000
+            },
+            {
+                name: '0x004',
+                value: 25000.0000
+            },
+        ],
     },
     {
         id: 'usdc',
@@ -36,7 +74,7 @@ export const vaultsData = [
         network: 'Ethereum Main Network',
         pattern: 'ERC-20',
         address: '0x5803df166D2eed917Ccd9C6197c1D35D2C1474DD',
-        balance: '0.00000',
+        balance: 0.0000,
         apy: '0.00',
         abi: [],
         active: false
@@ -50,7 +88,7 @@ export const vaultsData = [
         network: 'Ethereum Main Network',
         pattern: 'ERC-20',
         address: '0x5803df166D2eed917Ccd9C6197c1D35D2C1474DD',
-        balance: '0.00000',
+        balance: 0.0000,
         apy: '0.00',
         abi: [],
         active: false
@@ -64,7 +102,7 @@ export const vaultsData = [
         network: 'Ethereum Main Network',
         pattern: 'ERC-20',
         address: '0x5803df166D2eed917Ccd9C6197c1D35D2C1474DD',
-        balance: '0.00000',
+        balance: 0.0000,
         apy: '0.00',
         abi: [],
         active: false

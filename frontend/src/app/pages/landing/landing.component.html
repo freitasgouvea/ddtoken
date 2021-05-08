@@ -8,21 +8,17 @@
           <thead>
             <tr>
               <th scope="col">Coin</th>
-              <th scope="col">Vault</th>
-              <th scope="col" class="text-center">Full Cap.</th>
+              <th scope="col">Vault Source</th>
+              <th scope="col" class="text-center">Full Capital</th>
               <th scope="col" class="text-center">APY</th>
-              <th scope="col" class="text-center">Your Cap.</th>
-              <th scope="col" class="text-center">Your Share</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of vaults" (click)="selectVault(item)">
                 <th scope="row">{{item.symbol}}</th>
                 <td>{{item.source}}</td>
-                <td class="text-center">{{item.balance}}</td>
+                <td class="text-center">{{item.balance}}.00000</td>
                 <td class="text-center">{{item.apy}} %</td>
-                <td class="text-center">0.00000</td>
-                <td class="text-center">0.00 %</td>
             </tr>
           </tbody>
         </table>
@@ -31,7 +27,7 @@
 
     <div class="col-lg-4" style="margin-top: 100px;" *ngIf="smallBox == 'offline'">
       <div class="page-header">
-        <h4>INFO</h4>
+        <h4>OFFLINE</h4>
       </div>
       <div class="bs-component">
         <div class="card text-center bg-light border border-secondary mb-3"
@@ -40,7 +36,7 @@
             <h5 class="card-title">CONNECT YOUR WALLET</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
               content.</p>
-            <button type="button" class="btn btn-warning" (click)="connectMetamask()">Connect Wallet</button>
+            <button type="button" class="btn btn-warning" (click)="connectDemo()">Connect Wallet</button>
           </div>
         </div>
       </div>
@@ -65,16 +61,20 @@
 
     <div class="col-lg-4" style="margin-top: 100px;" *ngIf="smallBox == 'connected'">
       <div class="page-header">
-        <h4>INFO</h4>
+        <h4>CONNECTED</h4>
+        <h6>Address: {{wallet.address}}</h6>
       </div>
 
-      <div class="bs-component" *ngIf="assets == 0">
-        <div class="card text-center bg-light border border-secondary mb-3"
-          style="max-width: 100rem; margin-top: 40px;">
-          <div class="card-body">
-            <h5 class="card-title">MAKE YOUR FIRST DEPOSIT</h5>
-            <button type="button" class="btn btn-success" (click)="tryBox('eth')">Try with ETH</button>
-          </div>
+      <div class="bs-component" >
+        <div class="list-group" style="margin-top: 10px;">
+          <a *ngFor="let item of wallet.assets" (click)="selectVault(item.coin)" class="list-group-item 
+          bg-light text-primary border border-primary list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h4 class="mb-1">{{item.balance}}.00000</h4>
+              <p class="mb-1">{{item.coin}}</p>
+            </div>
+            <p class="mb-1">{{item.coin}}</p>
+          </a>
         </div>
       </div>
 
@@ -82,23 +82,11 @@
         <div class="card text-center bg-light border border-secondary mb-3"
           style="max-width: 100rem; margin-top: 10px;">
           <div class="card-body">
-            <h5 class="card-title">CALCULATE YOUR FUTURE GAINS</h5>
-            <button type="button" class="btn btn-info" (click)="tryBox('dai')">Try with DAI</button>
+            <h5 class="card-title">MAKE YOUR FIRST DEPOSIT</h5>
+            <button type="button" class="btn btn-success" (click)="tryBox('eth')">Try with ETH</button>
           </div>
         </div>
       </div>
 
-      <div class="bs-component" *ngIf="assets >= 1">
-        <div class="list-group" style="margin-top: 40px;">
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">5.65651</h5>
-              <small class="text-muted">APY 12.99 %</small>
-            </div>
-            <p class="mb-1">Ethereum</p>
-            <small class="text-muted">Go to vault</small>
-          </a>
-        </div>
-      </div>
     </div>
   </div>

@@ -7,8 +7,15 @@ export interface Vault {
     network: string;
     pattern: string;
     address: string;
-    balance: string;
+    balance: number;
     apy: string;
     abi: any;
     active: boolean;
+    txs: number;
+    holders:[
+        {
+            name: string,
+            value: number
+        }
+    ]
 }

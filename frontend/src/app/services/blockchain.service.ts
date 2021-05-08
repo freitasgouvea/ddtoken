@@ -34,21 +34,22 @@ export class BlockchainService {
     private window: Window,
     private sharedData: SharedService 
   ) { 
-    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
-    this.providerStatus = ethers.getDefaultProvider('rinkeby', {infura: this.infuraKey});
-    this.erc20 = new ethers.Contract(this.tokenAddress, this.abiToken, this.providerStatus);
-    this.vaultEthContract = new ethers.Contract(this.vaultEthAddress, this.abiVault, this.providerStatus);
-    this.vaultDaiContract = new ethers.Contract(this.vaultDaiAddress, this.abiVault, this.providerStatus);
+    //this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
+    //this.providerStatus = ethers.getDefaultProvider('rinkeby', {infura: this.infuraKey});
+    //this.erc20 = new ethers.Contract(this.tokenAddress, this.abiToken, this.providerStatus);
+    //this.vaultEthContract = new ethers.Contract(this.vaultEthAddress, this.abiVault, this.providerStatus);
+    //this.vaultDaiContract = new ethers.Contract(this.vaultDaiAddress, this.abiVault, this.providerStatus);
   }
 
   async connectWallet() {
     this.providerSigner = new ethers.providers.Web3Provider(window['ethereum']);
+    console.log(this.providerSigner);
     this.signer = this.providerSigner.getSigner();
-    console.log(this.signer)
-    //var connect = this.signer.connect(this.provider);
+    console.log(this.signer);
+    var connect = this.signer.connect(this.providerSigner);
     this.accountAddress = this.signer.getAddress();
     if(this.accountAddress){
-      await this.getBalances();
+      //await this.getBalances();
       return this.accountAddress;
     } else { 
       throwError('fail')
@@ -66,10 +67,6 @@ export class BlockchainService {
       'assets':[{
         'eth': ethBalance,
         'dai': daiBalance
-      }],
-      'vaults':[{
-        'ethVault': ethVaultBalance,
-        'daiVault': daiVaultBalance
       }]
     }
   }

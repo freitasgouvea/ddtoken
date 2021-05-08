@@ -1,12 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DemoService } from 'src/app/services/demo.service';
 import { Vault } from '../../models/vault.model';
-import { vaultsData } from '../../data/vaults.data';
 import { SharedService } from '../../services/shared.service';
-import { BlockchainService } from 'src/app/services/blockchain.service';
-//import { MetamaskService } from 'src/app/services/metamask.service';
-//import { Observable } from 'rxjs';
-//import { switchMap } from 'rxjs/operators';
+//import { BlockchainService } from 'src/app/services/blockchain.service';
 
 @Component({
   selector: 'app-landing',
@@ -16,33 +13,52 @@ import { BlockchainService } from 'src/app/services/blockchain.service';
 
 export class LandingComponent implements OnInit {
   smallBox: string;
-  vaults: Vault[];
+  vaults: any;
   wallet: any;
   assets: number;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
-    private sharedData: SharedService,
-    private blockchainService: BlockchainService 
+    private sharedService: SharedService,
+    private demoService: DemoService
+    //private blockchainService: BlockchainService 
   ) {
-    this.smallBox = 'offline';
-    this.vaults = vaultsData;
+    this.sharedService.vaultStatus.subscribe(status => this.vaults = status);
+    this.wallet = this.demoService.refreshWalletDemo();
+    console.log(this.wallet)
+    if (this.wallet) {
+      this.smallBox = 'connected';
+    } else {
+      this.smallBox = 'offline';
+    }
     this.assets = 0;
   }
 
   ngOnInit() {
-    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
+
   }
+
+  reloadCurrentRoute() {
+
+}
+
+  connectDemo(){
+    this.demoService.connectWalletDemo();
+    this.wallet = this.demoService.refreshWalletDemo();
+    this.smallBox = 'connected';
+  }
+
+  /*
 
   connectMetamask() {
     this.smallBox = 'waiting'
-    let address = '0x000teste'
     this.blockchainService.connectWallet();
     this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
     console.log(this.wallet);
     this.smallBox = 'connected'
   }
+
+  */
 
   selectVault(vault: Vault) {
     if(vault.active == true){
