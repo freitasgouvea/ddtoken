@@ -65,7 +65,7 @@
                       <div class="d-flex w-100 justify-content-between">
                         <h6>Deposited Balance</h6>
                       </div>
-                      <h4><strong>0 </strong><small style="font-size: medium;">{{vault.symbol}}</small></h4>
+                      <h4><strong>0.0000 </strong><small style="font-size: medium;">{{vault.symbol}}</small></h4>
                     </div>
                     <div class="col-6">
                       <div class="d-flex w-100 justify-content-between">
@@ -83,7 +83,7 @@
                     <h5 class="mb-1"><strong>Deposit </strong></h5>
                     <i class="fas fa-arrow-circle-down fa-lg"></i>
                   </div>
-                  <small class="text-white"><strong>Avaiable: 1.0000</strong></small>
+                  <small class="text-white"><strong>Avaiable: {{walletBalance}}.00000</strong></small>
                 </a>
                 <a (click)="selectOperation('withdraw')"
                   class="list-group-item list-group-item-action flex-column align-items-start bg-danger text-white mt-2">
@@ -91,7 +91,7 @@
                     <h5 class="mb-1">Withdraw</h5>
                     <i class="fas fa-arrow-circle-up fa-lg"></i>
                   </div>
-                  <small class="text-white">Avaiable: 10.0000</small>
+                  <small class="text-white">Avaiable: 0.0000</small>
                 </a>
                 <a (click)="selectOperation('deposit')"
                   class="list-group-item list-group-item-action flex-column align-items-start bg-light text-primary mt-2">
@@ -102,8 +102,60 @@
                   <small>Simulate your future profits</small>
                 </a>
               </div>
-              <app-deposit [vault]="vault" *ngIf="selectedOperation == 'deposit'"></app-deposit>
-              <app-withdraw [vault]="vault" *ngIf="selectedOperation == 'withdraw'"></app-withdraw>
+              <form *ngIf="selectedOperation == 'deposit'" [formGroup]="depositForm" (ngSubmit)="submitOperation()">
+                <fieldset>
+                  <legend>Deposit <a class="btn btn-sm btn-light float-right" (click)="selectOperation('menu')"
+                    >Back to Options</a></legend>
+                  <fieldset class="form-group">
+                    <label>Select a Value</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control bg-white" id="valueApprove" name="valueApprove"
+                        formControlName="valueApprove">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text text-dark bg-light">{{vault!.symbol}}</span>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="">
+                        I agree with supporting text below as a natural lead-in to additional content.
+                      </label>
+                    </div>
+                  </fieldset>
+                </fieldset>
+                <button *ngIf="step == 'form'" type="submit" class="btn btn-block btn-success"><strong> Confirm Your Deposit</strong></button>
+              </form>
+              <form *ngIf="selectedOperation == 'withdraw'" [formGroup]="withdrawForm" (ngSubmit)="submitOperation()">
+                <fieldset>
+                <legend>Deposit <a class="btn btn-sm btn-light float-right" (click)="selectOperation('menu')"
+                  >Back to Options</a></legend>
+                  <fieldset class="form-group">
+                    <label>Select a Value</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control bg-white" id="valueApprove" name="valueApprove"
+                        formControlName="valueApprove">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text text-dark bg-light">{{vault!.symbol}}</span>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="">
+                        I agree with supporting text below as a natural lead-in to additional content.
+                      </label>
+                    </div>
+                  </fieldset>
+                </fieldset>
+                <button *ngIf="step == 'form'" type="submit" class="btn btn-block btn-danger"><strong> Submit Your Withdraw</strong></button>
+              </form>
+              <button *ngIf="step == 'confirm'" class="btn btn-block btn-info"(click)="confirmOperation()"><strong> Confirm in Your Wallet</strong></button>
+              <button disabled *ngIf="step == 'waiting'" class="btn btn-block btn-warning"><strong> Waiting for de Tx</strong></button>
+              <button *ngIf="step == 'failed'" href="" class="btn btn-block btn-danger"><strong>Tx Failed</strong></button>
+              <button *ngIf="step == 'congrats'" href="" class="btn btn-block btn-success"><strong> See tx on Etherscan</strong></button>
             </div>
             <div class="col-lg-2 mt-4">
               <div class="row">
@@ -111,7 +163,8 @@
                   <p><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Select vault</p>
                   <p *ngIf="selectedOperation == 'menu'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Select operation</p>
                   <p *ngIf="selectedOperation != 'menu'"><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Select operation</p>
-                  <p><i class="far fa-bookmark"></i>&nbsp;&nbsp;Set a value and submit</p>
+                  <p *ngIf="step == 'form'"><i class="fas fa-bookmark"></i>&nbsp;&nbsp;Set a value and submit</p>
+                  <p *ngIf="step != 'form'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Set a value and submit</p>
                 </div>
                 <div class="col-md-12 col-sm-6">
                   <p *ngIf="vault.id != 'eth'"><i class="far fa-bookmark"></i>&nbsp;&nbsp;Approve in your

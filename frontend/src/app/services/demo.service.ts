@@ -43,15 +43,16 @@ export class DemoService {
 
   deposit(vaultId: string, value: number) {
     this.wallet = localStorage.getItem('wallet');
+    this.wallet = JSON.parse(this.wallet)
     let vaults: any;
     this.sharedService.vaultStatus.subscribe(vaultStatus => vaults = vaultStatus)
     if (vaultId = 'eth') {
       let walletBalance = this.wallet.assets[0].balance;
-      if (value >= walletBalance) {
+      if (value <= walletBalance) {
         this.wallet.assets[0].balance = walletBalance - value;
         localStorage.setItem('wallet', JSON.stringify(this.wallet));
         vaults[0].balance = vaults[0].balance + value;
-        if (vaults[0].holders.lenght > 5){
+        if (vaults[0].holders.prototype.lenght < 5){
           vaults[0].holders.push({
               name: this.wallet.address,
               value: value
@@ -68,11 +69,11 @@ export class DemoService {
       }
     } else {
       let walletBalance = this.wallet.assets[1].balance;
-      if (value >= walletBalance) {
+      if (value <= walletBalance) {
         this.wallet.assets[1].balance = walletBalance - value;
         localStorage.setItem('wallet', JSON.stringify(this.wallet));
         vaults[1].balance = vaults[1].balance + value;
-        if (vaults[1].holders.lenght > 5){
+        if (vaults[1].holders.prototype.lenght < 5){
           vaults[1].holders.push({
               name: this.wallet.address,
               value: value
@@ -80,7 +81,7 @@ export class DemoService {
         } else {
           vaults[1].holders[4].value = vaults[1].holders[4].value + value;
         }
-        vaults[0].txs = vaults[0].txs + 1;
+        vaults[1].txs = vaults[1].txs + 1;
         this.sharedService.updateVault(vaults);
         return true
       } else {
@@ -92,6 +93,7 @@ export class DemoService {
 
   withdraw(vaultId: string, value: number) {
     this.wallet = localStorage.getItem('wallet');
+    this.wallet = JSON.parse(this.wallet);
     let vaults: any;
     this.sharedService.vaultStatus.subscribe(vaultStatus => vaults = vaultStatus)
     if (vaultId = 'eth') {

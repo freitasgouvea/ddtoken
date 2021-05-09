@@ -13,16 +13,20 @@ import { DemoService } from 'src/app/services/demo.service';
 })
 
 export class VaultComponent implements OnInit {
-  @Input('stepChange') step!: string;
+
   wallet: any;
   walletBalance: any;
   vault: any;
   selectedOperation!: string;
+  step: any;
+  depositForm: FormGroup;
+  withdrawForm: FormGroup;
   calculateForm: FormGroup;
   holdersGraphSource = holdersData;
   holdersNumber: number;
   options: any;
   vaultView = 'info';
+  operationValue: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +49,13 @@ export class VaultComponent implements OnInit {
     if(this.vault == null){
       vaultsData.filter(item => item.id == vaultId).map(item => this.vault = item);
     }
-    this.holdersNumber = this.vault.holders.length
+    this.holdersNumber = this.vault.holders.length;
+    this.depositForm = this.formBuilder.group({
+      valueApprove: ['']
+    });
+    this.withdrawForm = this.formBuilder.group({
+      valueApprove: ['']
+    });
     this.calculateForm = this.formBuilder.group({
       value: ['', Validators.required, Validators.pattern("^[0-9]*$")],
       time: [365, Validators.required],
@@ -110,12 +120,45 @@ export class VaultComponent implements OnInit {
     };
   }
 
-  selectOperation(operation: string) {
-    this.selectedOperation = operation;
-  }
-  
   changeView(view: string) {
     this.vaultView = view;
   }
+
+  selectOperation(operation: string) {
+    this.step = 'form';
+    this.selectedOperation = operation;
+  }
+  
+  async submitOperation(){
+    this.step = 'confirm';
+    if(this.selectedOperation == 'deposit'){
+      this.operationValue = this.depositForm.controls.valueApprove.value;
+      console.log(this.operationValue)
+    } else {
+      this.operationValue = this.depositForm.controls.valueApprove.value;
+    }
+  }
+
+  async confirmOperation(){
+    setTimeout(this.step = 'waiting', 10000);
+    if(this.selectedOperation == 'deposit'){
+      this.demoService.deposit(this.vault.id, this.operationValue)
+      if(this.demoService.deposit(this.vault.id, this.operationValue)){
+        this.step = 'congrats';
+      } else {
+        this.step = 'failed';
+      }
+    } else {
+      this.demoService.withdraw(this.vault.id, this.operationValue)
+      if(this.demoService.withdraw(this.vault.id, this.operationValue)){
+        this.step = 'congrats';
+      } else {
+        this.step = 'failed';
+      }
+    }
+  }
+
+
+
 
 }
