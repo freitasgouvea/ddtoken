@@ -45,21 +45,24 @@ export class DemoService {
     this.wallet = localStorage.getItem('wallet');
     this.wallet = JSON.parse(this.wallet)
     let vaults: any;
-    this.sharedService.vaultStatus.subscribe(vaultStatus => vaults = vaultStatus)
+    this.sharedService.vaultStatus.subscribe(vaultStatus => vaults = vaultStatus);
     if (vaultId = 'eth') {
       let walletBalance = this.wallet.assets[0].balance;
       if (value <= walletBalance) {
         this.wallet.assets[0].balance = walletBalance - value;
         localStorage.setItem('wallet', JSON.stringify(this.wallet));
         vaults[0].balance = vaults[0].balance + value;
-        if (vaults[0].holders.prototype.lenght < 5){
-          vaults[0].holders.push({
+        let holdersArray = new Array(vaults[0].holders);
+        console.log(holdersArray.length)
+        if (holdersArray.length < 5){
+          holdersArray.push({
               name: this.wallet.address,
               value: value
             });
         } else {
-          vaults[0].holders[4].value = vaults[0].holders[4].value + value;
+          holdersArray[4].value = holdersArray[4].value + value;
         }
+        vaults[0].holders = holdersArray;
         vaults[0].txs = vaults[0].txs + 1;
         this.sharedService.updateVault(vaults);
         return true

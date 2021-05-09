@@ -66,7 +66,7 @@ export class VaultComponent implements OnInit {
   ngOnInit(): void {
     this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
     this.selectedOperation = 'menu';
-    this.step = 'zero';
+    this.step = 1;
     this.initHoldersGraph();
     this.initBalanceGraph();
   }
@@ -125,40 +125,44 @@ export class VaultComponent implements OnInit {
   }
 
   selectOperation(operation: string) {
-    this.step = 'form';
+    this.step = 1;
     this.selectedOperation = operation;
   }
   
   async submitOperation(){
-    this.step = 'confirm';
+    this.step = 2;
     if(this.selectedOperation == 'deposit'){
       this.operationValue = this.depositForm.controls.valueApprove.value;
-      console.log(this.operationValue)
+      this.depositForm.disable()
     } else {
-      this.operationValue = this.depositForm.controls.valueApprove.value;
+      this.operationValue = this.withdrawForm.controls.valueApprove.value;
+      this.withdrawForm.disable()
     }
   }
 
   async confirmOperation(){
-    setTimeout(this.step = 'waiting', 10000);
-    if(this.selectedOperation == 'deposit'){
-      this.demoService.deposit(this.vault.id, this.operationValue)
-      if(this.demoService.deposit(this.vault.id, this.operationValue)){
-        this.step = 'congrats';
+    this.step = 3;
+    setTimeout(op => {if(this.selectedOperation == 'deposit'){
+      let operation = this.demoService.deposit(this.vault.id, this.operationValue)
+      console.log(operation)
+      if(operation){
+        this.step = 4;
       } else {
-        this.step = 'failed';
+        this.step = 5;
       }
     } else {
-      this.demoService.withdraw(this.vault.id, this.operationValue)
-      if(this.demoService.withdraw(this.vault.id, this.operationValue)){
-        this.step = 'congrats';
+      let operation = this.demoService.withdraw(this.vault.id, this.operationValue)
+      if(operation){
+        this.step = 4;
       } else {
-        this.step = 'failed';
+        this.step = 5;
       }
-    }
+    }}, 5000);
   }
 
-
-
+ refreshWallet(){
+  this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
+  this.selectedOperation = 'menu';
+ }
 
 }
