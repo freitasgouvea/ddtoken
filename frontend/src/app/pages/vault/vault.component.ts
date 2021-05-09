@@ -161,8 +161,7 @@ export class VaultComponent implements OnInit {
   }
 
  refreshWallet(){
-  this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
-  this.selectedOperation = 'menu';
+  this.ngOnInit();
  }
 
 }

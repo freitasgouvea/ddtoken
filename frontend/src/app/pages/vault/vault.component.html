@@ -154,7 +154,7 @@
               </form>
               <button *ngIf="step == 2" class="btn btn-block btn-info"(click)="confirmOperation()"><strong> Confirm in Your Wallet</strong></button>
               <button disabled *ngIf="step == 3" class="btn btn-block btn-warning"><strong> Waiting for de Tx</strong></button>
-              <button *ngIf="step == 4" href="" class="btn btn-block btn-success"><strong> Refresh and see tx on Etherscan</strong></button>
+              <button *ngIf="step == 4" href="" class="btn btn-block btn-success" (click)="refreshWallet()"><strong> Refresh and see tx on Etherscan</strong></button>
               <button *ngIf="step == 5" href="" class="btn btn-block btn-danger"><strong>Tx Failed</strong></button>
             </div>
             <div class="col-lg-2 mt-4">
