@@ -5,9 +5,6 @@ import { Vault } from '../models/vault.model';
 import { vaultsData } from '../data/vaults.data';
 //import { Wallet } from '../models/wallet.model';
 
-var ethVault;
-vaultsData.filter(item => item.id == 'eth').map(item => ethVault = item);
-
 @Injectable({
   providedIn: 'root'
 })

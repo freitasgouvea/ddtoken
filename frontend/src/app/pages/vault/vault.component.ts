@@ -17,6 +17,7 @@ export class VaultComponent implements OnInit {
   wallet: any;
   walletBalance: any;
   vault: any;
+  vaultBalance = 0;
   selectedOperation!: string;
   step: any;
   depositForm: FormGroup;
@@ -38,16 +39,18 @@ export class VaultComponent implements OnInit {
   ) {
     this.wallet = this.demoService.refreshWalletDemo();
     let vaultId = this.route.snapshot.paramMap.get('id');
+    this.vault = this.demoService.getVaultById(vaultId!);
+    console.log(this.vault)
     if (vaultId == 'eth') {
       this.walletBalance = this.wallet.assets[0].balance;
-      this.sharedData.vaultStatus.subscribe(status => this.vault = status[0]);
+      if (this.vault.holders[4]){
+        this.vaultBalance = this.vault.holders[4].value;
+      }
     } else {
       this.walletBalance = this.wallet.assets[1].balance;
-      this.sharedData.vaultStatus.subscribe(status => this.vault = status[1]);
-    }
-    console.log(this.vault)
-    if(this.vault == null){
-      vaultsData.filter(item => item.id == vaultId).map(item => this.vault = item);
+      if (this.vault.holders[4]){
+        this.vaultBalance = this.vault.holders[4].value;
+      }
     }
     this.holdersNumber = this.vault.holders.length;
     this.depositForm = this.formBuilder.group({
@@ -64,7 +67,6 @@ export class VaultComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
     this.selectedOperation = 'menu';
     this.step = 1;
     this.initHoldersGraph();
@@ -161,7 +163,7 @@ export class VaultComponent implements OnInit {
   }
 
  refreshWallet(){
-  this.ngOnInit();
+  window.location.reload();
  }
 
 }

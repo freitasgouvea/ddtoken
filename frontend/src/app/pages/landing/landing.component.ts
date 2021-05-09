@@ -19,11 +19,10 @@ export class LandingComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sharedService: SharedService,
-    private demoService: DemoService
+    private demoService: DemoService,
+    //private sharedService: SharedService,
     //private blockchainService: BlockchainService 
   ) {
-    this.sharedService.vaultStatus.subscribe(status => this.vaults = status);
     this.wallet = this.demoService.refreshWalletDemo();
     console.log(this.wallet)
     if (this.wallet) {
@@ -35,12 +34,13 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.vaults = this.demoService.getVaults();
+    console.log(this.vaults)
+    if (!this.vaults){
+      this.demoService.createLocalData();
+      window.location.reload();
+    }
   }
-
-  reloadCurrentRoute() {
-
-}
 
   connectDemo(){
     this.demoService.connectWalletDemo();
@@ -48,20 +48,11 @@ export class LandingComponent implements OnInit {
     this.smallBox = 'connected';
   }
 
-  /*
-
-  connectMetamask() {
-    this.smallBox = 'waiting'
-    this.blockchainService.connectWallet();
-    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
-    console.log(this.wallet);
-    this.smallBox = 'connected'
-  }
-
-  */
-
   selectVault(vault: Vault) {
     if(vault.active == true){
+      if(!this.wallet){
+        this.demoService.connectWalletDemo();
+      }
       this.router.navigate(['/vault', vault.id ]);
     } else {
       return
@@ -71,5 +62,17 @@ export class LandingComponent implements OnInit {
   tryBox(id:string){
     this.router.navigate(['/vault', id ]);
   }
+
+    /*
+
+  connectMetamask() {
+    this.smallBox = 'waiting';
+    this.blockchainService.connectWallet();
+    this.sharedData.currentWallet.subscribe(wallet => this.wallet = wallet);
+    console.log(this.wallet);
+    this.smallBox = 'connected';
+  }
+
+  */
 
 }
